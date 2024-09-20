@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProdukController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
     Route::resource('/produk', ProdukController::class);
+
+    Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
+    Route::resource('/member', MemberController::class);
 });

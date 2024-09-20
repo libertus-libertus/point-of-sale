@@ -15,16 +15,12 @@
         <div class="box">
             <div class="box-header with-border">
                 <button onclick="addForm('{{ route('member.store') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-plus-circle"></i> Tambah</button>
-                <button onclick="cetakMember('{{ route('member.cetak_member') }}')" class="btn btn-info btn-xs btn-flat"><i class="fa fa-id-card"></i> Cetak Member</button>
             </div>
             <div class="box-body table-responsive">
                 <form action="" method="post" class="form-member">
                     @csrf
                     <table class="table table-stiped table-bordered">
                         <thead>
-                            <th width="5%">
-                                <input type="checkbox" name="select_all" id="select_all">
-                            </th>
                             <th width="5%">No</th>
                             <th>Kode</th>
                             <th>Nama</th>
@@ -56,7 +52,6 @@
                 url: '{{ route('member.data') }}',
             },
             columns: [
-                {data: 'select_all', searchable: false, sortable: false},
                 {data: 'DT_RowIndex', searchable: false, sortable: false},
                 {data: 'kode_member'},
                 {data: 'nama'},
@@ -78,10 +73,6 @@
                         return;
                     });
             }
-        });
-
-        $('[name=select_all]').on('click', function () {
-            $(':checkbox').prop('checked', this.checked);
         });
     });
 
@@ -129,18 +120,6 @@
                     alert('Tidak dapat menghapus data');
                     return;
                 });
-        }
-    }
-
-    function cetakMember(url) {
-        if ($('input:checked').length < 1) {
-            alert('Pilih data yang akan dicetak');
-            return;
-        } else {
-            $('.form-member')
-                .attr('target', '_blank')
-                .attr('action', url)
-                .submit();
         }
     }
 </script>

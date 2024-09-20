@@ -93,10 +93,6 @@
                     });
             }
         });
-
-        $('[name=select_all]').on('click', function () {
-            $(':checkbox').prop('checked', this.checked);
-        });
     });
 
     function addData(url) {
@@ -148,39 +144,6 @@
                     toastr.error('Tidak dapat menghapus data');
                     return;
                 });
-        }
-    }
-
-    function deleteSelected() {
-        if ($('input:checked').length > 1) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.post(url, $('.form-produk').serialize())
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    });
-            }
-        } else {
-            alert('Pilih data yang akan dihapus');
-            return;
-        }
-    }
-
-    function cetakBarcode(url) {
-        if ($('input:checked').length < 1) {
-            alert('Pilih data yang akan dicetak');
-            return;
-        } else if ($('input:checked').length < 3) {
-            alert('Pilih minimal 3 data untuk dicetak');
-            return;
-        } else {
-            $('.form-produk')
-                .attr('target', '_blank')
-                .attr('action', url)
-                .submit();
         }
     }
 </script>
