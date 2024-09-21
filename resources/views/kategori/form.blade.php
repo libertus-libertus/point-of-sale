@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="nama_kategori" class="col-lg-2 col-lg-offset-1 control-label">Kategori</label>
-                        <div class="col-lg-6">
+                        <div class="col-lg-8">
                             <input type="text" name="nama_kategori" id="nama_kategori" class="form-control" required>
                             <span class="help-block with-errors"></span>
                         </div>
