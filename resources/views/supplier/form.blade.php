@@ -1,5 +1,5 @@
 <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog" role="document">
         <form action="" method="post" class="form-horizontal">
             @csrf
             @method('post')
@@ -21,14 +21,14 @@
                     <div class="form-group row">
                         <label for="telepon" class="col-lg-2 col-lg-offset-1 control-label">Telepon</label>
                         <div class="col-lg-8">
-                            <input type="text" name="telepon" id="telepon" class="form-control" required>
+                            <input type="number" name="telepon" id="telepon" class="form-control" required>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="alamat" class="col-lg-2 col-lg-offset-1 control-label">Alamat</label>
                         <div class="col-lg-8">
-                            <textarea name="alamat" id="alamat" rows="3" class="form-control"></textarea>
+                            <textarea name="alamat" id="alamat" rows="3" class="form-control" required></textarea>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

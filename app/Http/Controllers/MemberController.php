@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Member;
-use App\Models\Setting;
 use Illuminate\Http\Request;
 use PDF;
 
@@ -69,7 +68,7 @@ class MemberController extends Controller
         $member->alamat = $request->alamat;
         $member->save();
 
-        return response()->json('Data berhasil disimpan', 200);
+        return response()->json(['message' => 'Data berhasil disimpan'], 200);
     }
 
     /**
@@ -107,7 +106,7 @@ class MemberController extends Controller
     {
         $member = Member::find($id)->update($request->all());
 
-        return response()->json('Data berhasil disimpan', 200);
+        return response()->json(['message' => 'Data berhasil diubah'], 200);
     }
 
     /**
@@ -121,6 +120,6 @@ class MemberController extends Controller
         $member = Member::find($id);
         $member->delete();
 
-        return response(null, 204);
+        return response()->json(['message' => 'Data berhasil dihapus'], 200);
     }
 }

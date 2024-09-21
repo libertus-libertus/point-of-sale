@@ -4,17 +4,18 @@
     Daftar Supplier
 @endsection
 
-@section('breadcrumb')
-    @parent
-    <li class="active">Daftar Supplier</li>
-@endsection
+@push('styles')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="row">
     <div class="col-lg-12">
         <div class="box">
             <div class="box-header with-border">
-                <button onclick="addForm('{{ route('supplier.store') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-plus-circle"></i> Tambah</button>
+                <button onclick="addData('{{ route('supplier.store') }}')" class="btn btn-success btn-xs btn-flat">
+                    <i class="fa fa-plus-circle"></i> Tambah Supplier
+                </button>
             </div>
             <div class="box-body table-responsive">
                 <table class="table table-stiped table-bordered">
@@ -35,14 +36,22 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    @if(session()->has('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if(session()->has('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+</script>
+
 <script>
     let table;
 
     $(function () {
         table = $('.table').DataTable({
-            responsive: true,
             processing: true,
-            serverSide: true,
             autoWidth: false,
             ajax: {
                 url: '{{ route('supplier.data') }}',
@@ -62,16 +71,17 @@
                     .done((response) => {
                         $('#modal-form').modal('hide');
                         table.ajax.reload();
+                        toastr.success(response.message);
                     })
                     .fail((errors) => {
-                        alert('Tidak dapat menyimpan data');
+                        toastr.error('Field masih ada yang kosong, tolong diisi terlebih dahulu!');
                         return;
                     });
             }
         });
     });
 
-    function addForm(url) {
+    function addData(url) {
         $('#modal-form').modal('show');
         $('#modal-form .modal-title').text('Tambah Supplier');
 
@@ -81,7 +91,7 @@
         $('#modal-form [name=nama]').focus();
     }
 
-    function editForm(url) {
+    function editData(url) {
         $('#modal-form').modal('show');
         $('#modal-form .modal-title').text('Edit Supplier');
 
@@ -110,9 +120,10 @@
                 })
                 .done((response) => {
                     table.ajax.reload();
+                    toastr.success(response.message);
                 })
                 .fail((errors) => {
-                    alert('Tidak dapat menghapus data');
+                    toastr.error('Tidak dapat menghapus data');
                     return;
                 });
         }

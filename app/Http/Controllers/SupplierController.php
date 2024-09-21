@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 
 class SupplierController extends Controller
 {
@@ -14,7 +14,7 @@ class SupplierController extends Controller
 
     public function data()
     {
-        $supplier = Supplier::orderBy('id_supplier', 'desc')->get();
+        $supplier = Supplier::all();
 
         return datatables()
             ->of($supplier)
@@ -22,7 +22,7 @@ class SupplierController extends Controller
             ->addColumn('aksi', function ($supplier) {
                 return '
                 <div class="btn-group">
-                    <button type="button" onclick="editForm(`'. route('supplier.update', $supplier->id_supplier) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
+                    <button type="button" onclick="editData(`'. route('supplier.update', $supplier->id_supplier) .'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-pencil"></i></button>
                     <button type="button" onclick="deleteData(`'. route('supplier.destroy', $supplier->id_supplier) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>
                 </div>
                 ';
@@ -31,77 +31,41 @@ class SupplierController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        $supplier = Supplier::create($request->all());
+        $supplier = new Supplier();
 
-        return response()->json('Data berhasil disimpan', 200);
+        $supplier->nama = $request->nama;
+        $supplier->telepon = $request->telepon;
+        $supplier->alamat = $request->alamat;
+        $supplier->save();
+
+        return response()->json(['message' => 'Data berhasil disimpan'], 200);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(string $id)
     {
         $supplier = Supplier::find($id);
 
         return response()->json($supplier);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(Request $request, string $id)
     {
-        //
+        $supplier = Supplier::find($id);
+        $supplier->nama = $request->nama;
+        $supplier->telepon = $request->telepon;
+        $supplier->alamat = $request->alamat;
+        $supplier->update();
+
+        return response()->json(['message' => 'Data berhasil diubah'], 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function destroy(string $id)
     {
-        $supplier = Supplier::find($id)->update($request->all());
+        $supplier = Supplier::find($id);
+        $supplier->delete();
 
-        return response()->json('Data berhasil disimpan', 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $supplier = Supplier::find($id)->delete();
-
-        return response(null, 204);
+        return response()->json(['message' => 'Data berhasil dihapus'], 200);
     }
 }

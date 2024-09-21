@@ -4,10 +4,9 @@
     Daftar Member
 @endsection
 
-@section('breadcrumb')
-    @parent
-    <li class="active">Daftar Member</li>
-@endsection
+@push('styles')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+@endpush
 
 @section('content')
 <div class="row">
@@ -39,6 +38,16 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    @if(session()->has('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if(session()->has('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+</script>
+
 <script>
     let table;
 
@@ -67,9 +76,10 @@
                     .done((response) => {
                         $('#modal-form').modal('hide');
                         table.ajax.reload();
+                        toastr.success(response.message);
                     })
                     .fail((errors) => {
-                        alert('Tidak dapat menyimpan data');
+                        toastr.error('Field masih ada yang kosong, tolong diisi terlebih dahulu!');
                         return;
                     });
             }
@@ -115,9 +125,10 @@
                 })
                 .done((response) => {
                     table.ajax.reload();
+                    toastr.success(response.message);
                 })
                 .fail((errors) => {
-                    alert('Tidak dapat menghapus data');
+                    toastr.error('Tidak dapat menghapus data');
                     return;
                 });
         }
